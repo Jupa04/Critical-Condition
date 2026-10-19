@@ -3,7 +3,7 @@ using TMPro;
 
 public class Movimineto_Jugador : MonoBehaviour
 {
-    [Header("Jugador")]  
+    [Header("Jugador")]
     [SerializeField] GameObject activeChar;
     [SerializeField] CharacterController controller;
     [SerializeField] Vector3 VelocidadJugador;
@@ -15,19 +15,19 @@ public class Movimineto_Jugador : MonoBehaviour
     [SerializeField] float MovimientoVertical;
     [SerializeField] float Velocidad = 4;
     [SerializeField] float VelocidadSalto = 1.5f; // Altura del salto
+
     [Header("Jetpack")]
     [SerializeField] float CombustibleMax = 1.5f;      // Segundos de jetpack
     [SerializeField] float Combustible;
     [SerializeField] float FuerzaJetpack = 8f;         // Empuje hacia arriba
     [SerializeField] float MaxVelocidadSubida = 4f;
-    [SerializeField] float MultiplicadorJetpack = 1.5f;  // Velocidad horizontal extra mientras esta activo
+    [SerializeField] float MultiplicadorJetpack = 2f;  // Velocidad horizontal extra mientras esta activo
     [SerializeField] bool JetpackActivo;
     [SerializeField] TMP_Text TextoCombustible;       
     bool JetpackListo;                               
 
     void Start()
     {
-        //Logica Inicial
         if (activeChar == null) activeChar = gameObject;
         Gravedad = -2.5f; 
         controller.minMoveDistance = 0.001f;
@@ -43,9 +43,8 @@ public class Movimineto_Jugador : MonoBehaviour
             VelocidadJugador.y = -0.5f; // Pegado al piso
             ComprobadorSalto = false;   // Aterrizo (insertar animacion de aterrizar)
         }
-        if (ComprobadorPiso) Combustible = CombustibleMax; // Recarga al tocar el piso
 
-        //  Movimiento adelante/atras y lateral con W A S D (insertar animacion de movimiento
+        //  WASD (insertar animacion de movimiento)
         Vector3 adelante = transform.forward * Input.GetAxis("Vertical");
         Vector3 lateral = transform.right * Input.GetAxis("Horizontal");
         Vector3 movimiento = Vector3.ClampMagnitude(adelante + lateral, 1f) * Velocidad; 
@@ -81,5 +80,11 @@ public class Movimineto_Jugador : MonoBehaviour
         //  Aplicar movimiento final 
         movimiento.y = VelocidadJugador.y;
         controller.Move(movimiento * Time.deltaTime);
+    }
+
+    // Recarga del jetpack con capsulas (porcentaje del combustible maximo)
+    public void AgregarCombustible(float porcentaje)
+    {
+        Combustible = Mathf.Min(Combustible + CombustibleMax * porcentaje / 100f, CombustibleMax);
     }
 }

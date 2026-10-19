@@ -1,0 +1,10 @@
+- [x] Mecanicas principales 
+- [x] UI placeholder para pruebas
+- [x] Primer test de prueba
+- [ ] Refinar mecanicas/jugabilidad
+- [ ] Agregar modelos 3D finales
+- [ ] Implementar animaciones
+- [ ] Implementar mapa(s) finalizado
+- [ ] Refinar UI
+- [ ] Playtest
+- [ ] Demo final

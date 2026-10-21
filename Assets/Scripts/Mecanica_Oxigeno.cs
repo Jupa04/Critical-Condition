@@ -8,16 +8,17 @@ public class Mecanica_Oxigeno : MonoBehaviour
     [SerializeField] float consumoPorSegundo = 1f;
     [SerializeField] TextMeshProUGUI textoOxigeno;
 
+    public bool SinOxigeno => oxigenoActual <= 0f;
+
     void Update()
     {
-        oxigenoActual -= consumoPorSegundo * Time.deltaTime;
+        oxigenoActual = Mathf.Max(oxigenoActual - consumoPorSegundo * Time.deltaTime, 0f);
+        textoOxigeno.text = "Oxigeno: " + Mathf.CeilToInt(oxigenoActual) + "%";
+    }
 
-        if (oxigenoActual <= 0f)
-        {
-            oxigenoActual = 0f;
-            Debug.Log("Sin oxigeno: el jugador pierde");
-        }
-
+    public void Rellenar()
+    {
+        oxigenoActual = oxigenoMaximo;
         textoOxigeno.text = "Oxigeno: " + Mathf.CeilToInt(oxigenoActual) + "%";
     }
 

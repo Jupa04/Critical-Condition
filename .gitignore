@@ -112,3 +112,9 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Herramientas locales
+.claude/
+.ai-game-dev/
+.mcp.json
+CLAUDE.md

@@ -1,9 +1,9 @@
 - [x] Mecanicas principales 
 - [x] UI placeholder para pruebas
 - [x] Primer test de prueba
-- [ ] Refinar mecanicas/jugabilidad
-- [ ] Agregar modelos 3D finales
-- [ ] Implementar animaciones
+- [x] Refinar mecanicas/jugabilidad
+- [x] Agregar modelos 3D finales
+- [x] Implementar animaciones
 - [ ] Implementar mapa(s) finalizado
 - [ ] Refinar UI
 - [ ] Audio de juego

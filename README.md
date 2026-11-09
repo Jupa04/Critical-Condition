@@ -6,5 +6,6 @@
 - [ ] Implementar animaciones
 - [ ] Implementar mapa(s) finalizado
 - [ ] Refinar UI
+- [ ] Audio de juego
 - [ ] Playtest
 - [ ] Demo final

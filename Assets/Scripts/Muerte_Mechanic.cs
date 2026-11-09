@@ -19,6 +19,7 @@ public class Muerte_Mechanic : MonoBehaviour
     Quaternion rotacionInicial;
     float ultimoDano = -999f;
     bool muerto;
+    public bool Muerto => muerto;   // Lo lee Astronauta_Animador
 
     void Start()
     {

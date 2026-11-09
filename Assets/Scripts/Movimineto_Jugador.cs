@@ -25,6 +25,7 @@ public class Movimineto_Jugador : MonoBehaviour
     [SerializeField] bool JetpackActivo;
     [SerializeField] TMP_Text TextoCombustible;       
     bool JetpackListo;                               
+    public bool JetpackEncendido => JetpackActivo;   // Lo lee Astronauta_Animador
 
     void Start()
     {

@@ -2,10 +2,11 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
+// La vida del jugador es su oxigeno (Mecanica_Oxigeno).
+// Cada golpe le quita oxigeno; si llega a 0, ya sea por golpes o por el tiempo, muere.
 public class Muerte_Mechanic : MonoBehaviour
 {
-    [SerializeField] int vidaMaxima = 3;
-    [SerializeField] int vidaActual;
+    [SerializeField] float danoPorGolpe = 25f;   // Oxigeno que quita cada golpe
     [SerializeField] float tiempoInvulnerable = 1f;
     [SerializeField] float tiempoRespawn = 3f;
     [SerializeField] string tagDano = "Dano";
@@ -25,8 +26,6 @@ public class Muerte_Mechanic : MonoBehaviour
     {
         posicionInicial = transform.position;
         rotacionInicial = transform.rotation;
-        vidaActual = vidaMaxima;
-        ActualizarHUD();
     }
 
     void Update()
@@ -49,18 +48,16 @@ public class Muerte_Mechanic : MonoBehaviour
         if (muerto || Time.time < ultimoDano + tiempoInvulnerable) return;
 
         ultimoDano = Time.time;
-        vidaActual--;
-        if (vidaActual <= 0) Morir();
-        else ActualizarHUD();
+        oxigeno.PerderOxigeno(danoPorGolpe);
+        if (oxigeno.SinOxigeno) Morir();
     }
 
     void Morir()
     {
         muerto = true;
-        vidaActual = 0;
         movimiento.enabled = false;
         oxigeno.enabled = false;
-        ActualizarHUD();
+        if (textoEstado != null) textoEstado.text = "Connection Lost";
         StartCoroutine(Respawn());
     }
 
@@ -74,22 +71,10 @@ public class Muerte_Mechanic : MonoBehaviour
         else transform.SetPositionAndRotation(posicionInicial, rotacionInicial);
         controller.enabled = true;
 
-        vidaActual = vidaMaxima;
         oxigeno.Rellenar();
         movimiento.AgregarCombustible(100f);
         movimiento.enabled = true;
         oxigeno.enabled = true;
         muerto = false;
-        ActualizarHUD();
-    }
-
-    void ActualizarHUD()
-    {
-        if (textoEstado == null) return;
-
-        if (vidaActual >= 3) textoEstado.text = "Stable";
-        else if (vidaActual == 2) textoEstado.text = "Warning";
-        else if (vidaActual == 1) textoEstado.text = "Critical Condition";
-        else textoEstado.text = "Connection Lost";
     }
 }

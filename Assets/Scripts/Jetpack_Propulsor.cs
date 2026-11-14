@@ -9,6 +9,8 @@ public class Jetpack_Propulsor : MonoBehaviour
     [Header("Referencias (vacio = se buscan solas)")]
     [SerializeField] Movimineto_Jugador movimiento;
     [SerializeField] Muerte_Mechanic muerte;
+    [Tooltip("Para vitrinas: el propulsor queda encendido siempre, sin jugador.")]
+    [SerializeField] bool siempreEncendido;
 
     [Header("Piezas del efecto")]
     [SerializeField] Transform[] llamas;            // conos exterior y nucleo
@@ -43,7 +45,7 @@ public class Jetpack_Propulsor : MonoBehaviour
 
     void Update()
     {
-        bool encendido = movimiento != null && movimiento.JetpackEncendido && (muerte == null || !muerte.Muerto);
+        bool encendido = siempreEncendido || movimiento != null && movimiento.JetpackEncendido && (muerte == null || !muerte.Muerto);
 
         // Rampa corta de encendido y apagado
         float objetivo = encendido ? 1f : 0f;

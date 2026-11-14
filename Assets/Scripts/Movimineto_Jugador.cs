@@ -71,7 +71,7 @@ public class Movimineto_Jugador : MonoBehaviour
         //  UI del combustible 
         if (TextoCombustible != null)
         {
-            TextoCombustible.text = "Jetpack: " + Mathf.CeilToInt(Mathf.Max(Combustible, 0) / CombustibleMax * 100) + "%";
+            TextoCombustible.text = "FUEL " + Mathf.CeilToInt(Mathf.Max(Combustible, 0) / CombustibleMax * 100) + "%";
         }
 
         //  Gravedad (insertar animacion de caida) 

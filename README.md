@@ -5,7 +5,7 @@
 - [x] Agregar modelos 3D finales
 - [x] Implementar animaciones
 - [ ] Implementar mapa(s) finalizado
-- [ ] Refinar UI
-- [ ] Audio de juego
-- [ ] Playtest
+- [x] Refinar UI
+- [x] Audio del juego
+- [x] Playtest
 - [ ] Demo final

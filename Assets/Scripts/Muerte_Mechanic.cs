@@ -20,6 +20,7 @@ public class Muerte_Mechanic : MonoBehaviour
     Quaternion rotacionInicial;
     float ultimoDano = -999f;
     bool muerto;
+    Camara_TerceraPersona camara;
     public bool Muerto => muerto;   // Lo lee Astronauta_Animador
 
     void Start()
@@ -49,7 +50,35 @@ public class Muerte_Mechanic : MonoBehaviour
 
         ultimoDano = Time.time;
         oxigeno.PerderOxigeno(danoPorGolpe);
+        SacudirCamara();
         if (oxigeno.SinOxigeno) Morir();
+    }
+
+    void SacudirCamara()
+    {
+        if (camara == null && Camera.main != null) camara = Camera.main.GetComponent<Camara_TerceraPersona>();
+        if (camara != null) camara.Sacudir();
+    }
+
+    // Lo llaman los checkpoints del nivel para mover el punto de reaparicion
+    public void EstablecerRespawn(Transform punto)
+    {
+        if (punto != null) puntoRespawn = punto;
+    }
+
+    // Lo llama Zona_Vacio: caer fuera del nivel quita oxigeno y regresa al ultimo checkpoint
+    public void CaerAlVacio()
+    {
+        if (muerto) return;
+
+        ultimoDano = Time.time;
+        oxigeno.PerderOxigeno(danoPorGolpe);
+        if (oxigeno.SinOxigeno) { Morir(); return; }
+
+        controller.enabled = false;
+        if (puntoRespawn != null) transform.SetPositionAndRotation(puntoRespawn.position, puntoRespawn.rotation);
+        else transform.SetPositionAndRotation(posicionInicial, rotacionInicial);
+        controller.enabled = true;
     }
 
     void Morir()

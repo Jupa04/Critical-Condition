@@ -17,7 +17,7 @@ public class Movimineto_Jugador : MonoBehaviour
     [SerializeField] float VelocidadSalto = 1.5f; // Altura del salto
 
     [Header("Jetpack")]
-    [SerializeField] float CombustibleMax = 1.5f;      // Segundos de jetpack
+    [SerializeField] float CombustibleMax = 3.5f;      // Segundos de jetpack (antes 1.5)
     [SerializeField] float Combustible;
     [SerializeField] float FuerzaJetpack = 8f;         // Empuje hacia arriba
     [SerializeField] float MaxVelocidadSubida = 4f;

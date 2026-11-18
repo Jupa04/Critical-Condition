@@ -1253,7 +1253,7 @@ MonoBehaviour:
   MovimientoVertical: 0
   Velocidad: 7
   VelocidadSalto: 1.5
-  CombustibleMax: 1.5
+  CombustibleMax: 3.5
   Combustible: 0
   FuerzaJetpack: 8
   MaxVelocidadSubida: 4

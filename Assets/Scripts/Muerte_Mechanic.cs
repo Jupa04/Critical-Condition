@@ -21,12 +21,14 @@ public class Muerte_Mechanic : MonoBehaviour
     float ultimoDano = -999f;
     bool muerto;
     Camara_TerceraPersona camara;
+    Sonido_Jugador sonido;
     public bool Muerto => muerto;   // Lo lee Astronauta_Animador
 
     void Start()
     {
         posicionInicial = transform.position;
         rotacionInicial = transform.rotation;
+        sonido = GetComponent<Sonido_Jugador>();
     }
 
     void Update()
@@ -51,6 +53,7 @@ public class Muerte_Mechanic : MonoBehaviour
         ultimoDano = Time.time;
         oxigeno.PerderOxigeno(danoPorGolpe);
         SacudirCamara();
+        if (sonido != null) sonido.Golpe();
         if (oxigeno.SinOxigeno) Morir();
     }
 
@@ -73,6 +76,7 @@ public class Muerte_Mechanic : MonoBehaviour
 
         ultimoDano = Time.time;
         oxigeno.PerderOxigeno(danoPorGolpe);
+        if (sonido != null) sonido.Golpe();
         if (oxigeno.SinOxigeno) { Morir(); return; }
 
         controller.enabled = false;
@@ -86,7 +90,7 @@ public class Muerte_Mechanic : MonoBehaviour
         muerto = true;
         movimiento.enabled = false;
         oxigeno.enabled = false;
-        if (textoEstado != null) textoEstado.text = "Connection Lost";
+        if (textoEstado != null) textoEstado.text = Idioma.T("Connection Lost");
         StartCoroutine(Respawn());
     }
 

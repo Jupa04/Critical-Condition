@@ -28,6 +28,15 @@ public class Jetpack_Propulsor : MonoBehaviour
     [SerializeField] float tiempoApagado = 0.12f;
     [SerializeField] int bocanadasAlEncender = 6;
 
+    [Header("Suelo (opcional)")]
+    [Tooltip("Acorta la llama cuando hay suelo debajo, para que no lo atraviese")]
+    [SerializeField] bool limitarAlSuelo;
+    [Tooltip("Largo de la llama completa en el mundo")]
+    [SerializeField] float largoLlama = 3.4f;
+    [Tooltip("Colisionadores que no cuentan como suelo (el propio vehiculo)")]
+    [SerializeField] Transform ignorar;
+    float factorSuelo = 1f;
+
     Vector3[] escalasBase;
     float intensidad;
     float siguienteHervor;
@@ -52,8 +61,10 @@ public class Jetpack_Propulsor : MonoBehaviour
         float tiempo = encendido ? tiempoEncendido : tiempoApagado;
         intensidad = Mathf.MoveTowards(intensidad, objetivo, Time.deltaTime / Mathf.Max(tiempo, 0.001f));
 
+        if (limitarAlSuelo) factorSuelo = Holgura() / largoLlama;
+
         // Al encender, una bocanada de golpe para que se sienta el arranque
-        if (encendido && !encendidoAntes)
+        if (encendido && !encendidoAntes && Aire() > 0.5f)
             foreach (var p in bocanadas) p.Emit(bocanadasAlEncender);
         encendidoAntes = encendido;
 
@@ -69,17 +80,35 @@ public class Jetpack_Propulsor : MonoBehaviour
         Aplicar(intensidad);
     }
 
+    // Con suelo muy cerca no se emiten bocanadas (nacerian dentro del piso)
+    float Aire() => limitarAlSuelo ? Mathf.Clamp01((factorSuelo * largoLlama - 0.5f) / 1.2f) : 1f;
+
+    // Distancia libre bajo la tobera, hasta el primer suelo que no sea el propio vehiculo
+    float Holgura()
+    {
+        Vector3 desde = transform.position + transform.up * 0.1f;
+        float mejor = largoLlama + 0.1f;
+        foreach (var h in Physics.RaycastAll(desde, -transform.up, mejor, ~0, QueryTriggerInteraction.Ignore))
+        {
+            if (ignorar != null && h.collider.transform.IsChildOf(ignorar)) continue;
+            if (h.distance < mejor) mejor = h.distance;
+        }
+        return Mathf.Clamp(mejor - 0.1f, 0f, largoLlama);
+    }
+
     void Aplicar(float k)
     {
         for (int i = 0; i < llamas.Length; i++)
         {
             Vector3 b = escalasBase[i];
             // La llama nace delgada y se alarga: el ancho crece mas rapido que el largo
-            llamas[i].localScale = new Vector3(b.x * hervor.x * Mathf.Sqrt(k), b.y * hervor.y * k, b.z * hervor.z * Mathf.Sqrt(k));
-            llamas[i].gameObject.SetActive(k > 0.01f);
+            float largo = k * Mathf.Min(1f, factorSuelo / hervor.y);
+            llamas[i].localScale = new Vector3(b.x * hervor.x * Mathf.Sqrt(k), b.y * hervor.y * largo, b.z * hervor.z * Mathf.Sqrt(k));
+            llamas[i].gameObject.SetActive(largo > 0.01f);
         }
-        foreach (var p in bocanadas) { var e = p.emission; e.rateOverTime = tasaBocanadas * k; }
-        foreach (var p in chispas) { var e = p.emission; e.rateOverTime = tasaChispas * k; }
+        float aire = Aire();
+        foreach (var p in bocanadas) { var e = p.emission; e.rateOverTime = tasaBocanadas * k * aire; }
+        foreach (var p in chispas) { var e = p.emission; e.rateOverTime = tasaChispas * k * aire; }
         if (luz != null)
         {
             luz.enabled = k > 0.01f;

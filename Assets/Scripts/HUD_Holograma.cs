@@ -73,6 +73,7 @@ public class HUD_Holograma : MonoBehaviour
     // Traduce el texto a un estado: palabras clave o porcentaje
     string Estado(string texto)
     {
+        texto = Idioma.Original(texto);
         if (texto.Contains("Warning")) return "Warning";
         if (texto.Contains("Critical")) return "Critical";
         if (texto.Contains("Lost")) return "Lost";

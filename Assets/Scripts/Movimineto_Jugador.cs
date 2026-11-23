@@ -9,7 +9,7 @@ public class Movimineto_Jugador : MonoBehaviour
     [SerializeField] Vector3 VelocidadJugador;
     [SerializeField] bool ComprobadorPiso;
     [SerializeField] bool ComprobadorSalto;
-    [SerializeField] float Gravedad;
+    [SerializeField] float Gravedad = -5f;
     [SerializeField] float MaxVelocidadCaida = -3f; 
     [SerializeField] float MovimientoHorizontal;
     [SerializeField] float MovimientoVertical;
@@ -17,11 +17,11 @@ public class Movimineto_Jugador : MonoBehaviour
     [SerializeField] float VelocidadSalto = 1.5f; // Altura del salto
 
     [Header("Jetpack")]
-    [SerializeField] float CombustibleMax = 3.5f;      // Segundos de jetpack (antes 1.5)
+    [SerializeField] float CombustibleMax = 2.2f;      // Segundos de jetpack: poco, para que no se pueda volar sobre los obstaculos
     [SerializeField] float Combustible;
-    [SerializeField] float FuerzaJetpack = 8f;         // Empuje hacia arriba
+    [SerializeField] float FuerzaJetpack = 11f;        // Empuje hacia arriba
     [SerializeField] float MaxVelocidadSubida = 4f;
-    [SerializeField] float MultiplicadorJetpack = 2f;  // Velocidad horizontal extra mientras esta activo
+    [SerializeField] float MultiplicadorJetpack = 1.3f; // Velocidad horizontal extra mientras esta activo
     [SerializeField] bool JetpackActivo;
     [SerializeField] TMP_Text TextoCombustible;       
     bool JetpackListo;                               
@@ -30,7 +30,6 @@ public class Movimineto_Jugador : MonoBehaviour
     void Start()
     {
         if (activeChar == null) activeChar = gameObject;
-        Gravedad = -2.5f; 
         controller.minMoveDistance = 0.001f;
         Combustible = CombustibleMax;
     }
@@ -71,7 +70,7 @@ public class Movimineto_Jugador : MonoBehaviour
         //  UI del combustible 
         if (TextoCombustible != null)
         {
-            TextoCombustible.text = "FUEL " + Mathf.CeilToInt(Mathf.Max(Combustible, 0) / CombustibleMax * 100) + "%";
+            TextoCombustible.text = Idioma.T("FUEL {0}%", Mathf.CeilToInt(Mathf.Max(Combustible, 0) / CombustibleMax * 100));
         }
 
         //  Gravedad (insertar animacion de caida) 

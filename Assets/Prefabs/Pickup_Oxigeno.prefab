@@ -147,3 +147,9 @@ MonoBehaviour:
   tiempoRespawn: 5
   velocidadRotacion: 80
   sentidoHorario: 1
+  sonidosRecoger:
+  - {fileID: 8300000, guid: 74e0f3f7439a0004cb87a82fd6c0945b, type: 3}
+  - {fileID: 8300000, guid: 473bc8df51789764d91992afda466f45, type: 3}
+  - {fileID: 8300000, guid: 7d8efb4b789150d448c6427d94fd05db, type: 3}
+  - {fileID: 8300000, guid: 1b6ae07e168140745b54243d4db98048, type: 3}
+  volumenRecoger: 0.8

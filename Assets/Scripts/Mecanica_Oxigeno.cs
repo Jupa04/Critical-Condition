@@ -48,13 +48,13 @@ public class Mecanica_Oxigeno : MonoBehaviour
     void ActualizarHUD()
     {
         int porcentaje = Mathf.CeilToInt(Porcentaje);
-        if (textoOxigeno != null) textoOxigeno.text = "O2 " + porcentaje + "%";
+        if (textoOxigeno != null) textoOxigeno.text = Idioma.T("O2 {0}%", porcentaje);
         if (textoEstado == null) return;
 
         // "Connection Lost" lo escribe Muerte_Mechanic al morir
         if (porcentaje <= 0) return;
-        if (porcentaje <= limiteCritico) textoEstado.text = "Critical Condition";
-        else if (porcentaje <= limiteAdvertencia) textoEstado.text = "Warning";
-        else textoEstado.text = "Stable";
+        if (porcentaje <= limiteCritico) textoEstado.text = Idioma.T("Critical Condition");
+        else if (porcentaje <= limiteAdvertencia) textoEstado.text = Idioma.T("Warning");
+        else textoEstado.text = Idioma.T("Stable");
     }
 }

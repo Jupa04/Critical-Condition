@@ -7,6 +7,8 @@ public class Recoger_JetpackFuel : MonoBehaviour
     [SerializeField] float tiempoRespawn = 5f;
     [SerializeField] float velocidadRotacion = 100f;
     [SerializeField] bool sentidoHorario = true;
+    [SerializeField] AudioClip[] sonidosRecoger;
+    [SerializeField] float volumenRecoger = 0.8f;
 
     Renderer[] renderers;
     Collider col;
@@ -30,6 +32,7 @@ public class Recoger_JetpackFuel : MonoBehaviour
         if (jetpack != null)
         {
             jetpack.AgregarCombustible(cantidadFuel);
+            Sonido_Recoger.Reproducir(sonidosRecoger, volumenRecoger);
             StartCoroutine(Respawn());
         }
     }

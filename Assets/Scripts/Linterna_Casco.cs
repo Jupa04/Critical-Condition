@@ -91,7 +91,7 @@ public class Linterna_Casco : MonoBehaviour
     {
         if (textoBateria == null) return;
         int porcentaje = Mathf.CeilToInt(bateria);
-        textoBateria.text = "LANTERN " + porcentaje + "%";
+        textoBateria.text = Idioma.T("LANTERN {0}%", porcentaje);
 
         Color c = colorApagada;
         if (encendida)

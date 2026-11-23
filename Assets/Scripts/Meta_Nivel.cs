@@ -7,6 +7,8 @@ public class Meta_Nivel : MonoBehaviour
     [SerializeField] GameObject aviso;              // Panel del HUD que se enciende al llegar
     [SerializeField] TextMeshProUGUI textoTiempo;
     [SerializeField] Mecanica_Oxigeno oxigeno;      // Se detiene el consumo al llegar
+    [Tooltip("Opcional: cinematica que se reproduce antes del aviso")]
+    [SerializeField] Cinematica_Escape cinematica;
 
     float inicio;
     bool terminado;
@@ -23,8 +25,9 @@ public class Meta_Nivel : MonoBehaviour
         terminado = true;
 
         float t = Time.time - inicio;
-        if (textoTiempo != null) textoTiempo.text = "TIME  " + Mathf.FloorToInt(t / 60f).ToString("00") + ":" + Mathf.FloorToInt(t % 60f).ToString("00");
-        if (aviso != null) aviso.SetActive(true);
+        if (textoTiempo != null) textoTiempo.text = Idioma.T("TIME  {0}", Mathf.FloorToInt(t / 60f).ToString("00") + ":" + Mathf.FloorToInt(t % 60f).ToString("00"));
         if (oxigeno != null) oxigeno.enabled = false;
+        if (cinematica != null) cinematica.Iniciar(() => { if (aviso != null) aviso.SetActive(true); });
+        else if (aviso != null) aviso.SetActive(true);
     }
 }

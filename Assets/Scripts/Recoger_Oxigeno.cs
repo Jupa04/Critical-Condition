@@ -7,6 +7,8 @@ public class Recoger_Oxigeno : MonoBehaviour
     [SerializeField] float tiempoRespawn = 5f;
     [SerializeField] float velocidadRotacion = 100f;
     [SerializeField] bool sentidoHorario = true;
+    [SerializeField] AudioClip[] sonidosRecoger;
+    [SerializeField] float volumenRecoger = 0.8f;
 
     Renderer[] renderers;
     Collider col;
@@ -30,6 +32,7 @@ public class Recoger_Oxigeno : MonoBehaviour
         if (oxigeno != null)
         {
             oxigeno.AgregarOxigeno(cantidadOxigeno);
+            Sonido_Recoger.Reproducir(sonidosRecoger, volumenRecoger);
             StartCoroutine(Respawn());
         }
     }
